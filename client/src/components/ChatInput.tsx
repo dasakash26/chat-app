@@ -1,29 +1,30 @@
 import { MessageType } from "@/lib/utils";
 import { useState } from "react";
-import { Socket } from "socket.io-client";
 import { Button } from "./ui/button";
 import { SendHorizontal, SmilePlus } from "lucide-react";
 import { Input } from "./ui/input";
 
 export const ChatInput = ({
   userId,
-  socket,
+  ws,
 }: {
   userId: string;
-  socket: Socket;
+  ws: WebSocket;
 }) => {
   const [input, setInput] = useState("");
   const handleSend = () => {
     if (!input.trim()) return;
 
     const newMessage: MessageType = {
-      id: Math.random().toString(36).substring(2, 9), // Ensure unique keys
+      id: Math.random().toString(36).substring(2, 9),
+      type: "MESSAGE",
       userId: userId,
       text: input,
       createdAt: new Date(),
     };
 
-    socket.emit("send_message", newMessage);
+    ws.send(JSON.stringify(newMessage));
+    //setMessages((prevMessages: any) => [...prevMessages, newMessage]);
     setInput("");
   };
 

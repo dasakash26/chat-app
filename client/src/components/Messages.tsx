@@ -5,7 +5,7 @@ import { Message } from "./Message";
 export const Messages = ({
   messages,
   messagesEndRef,
-  userId
+  userId,
 }: {
   messages: MessageType[];
   messagesEndRef: React.RefObject<HTMLDivElement>;
@@ -15,7 +15,7 @@ export const Messages = ({
     <ScrollArea className="flex-1 p-4">
       <div className="space-y-4">
         {messages.map((message, index) => (
-          <Message key={message.id || index} {...message} currentUser={userId}/>
+          <Message key={index} {...message} currentUser={userId} />
         ))}
         <div ref={messagesEndRef} />
       </div>
